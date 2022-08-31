@@ -3,9 +3,23 @@ version: '3'
 services:
   app: 
     build: .
-    entrypoint: ./.docker/entrypoint.sh
+    entrypoint: dockerize -wait tcp://db:5432 -timeout 40s ./.docker/entrypoint.sh
     container_name: nestjs-api
     ports:
       - 3000:3000
     volumes:
       - .:/home/node/app
+    # depends on só vigia o início do container, mas não quer dizer que o banco está de pé
+    depends_on:
+      - db
+
+  db:
+    build: .docker/postgres
+    container_name: nestjs-api-db
+    restart: always
+    tty: true
+    environment: 
+      - POSTGRES_PASSWORD=root
+      - POSTGRES_DB=store
+    volumes:
+      - .docker/dbdata:/var/lib/postgresql/data
