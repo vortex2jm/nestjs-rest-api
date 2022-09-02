@@ -13,17 +13,17 @@ export class StudentsService {
     private studentRepo: Repository<Student>
   ){}
 
-  create(createStudentDto: CreateStudentDto) {
-    const student = this.studentRepo.create(createStudentDto);
-    return this.studentRepo.save(student)
+  async create(createStudentDto: CreateStudentDto) {
+    const student = await this.studentRepo.create(createStudentDto);
+    return await this.studentRepo.save(student)
   }
 
-  findAll() {
-    return this.studentRepo.find();
+  async findAll() {
+    return await this.studentRepo.find();
   }
 
-  findOne(id: number) {
-    return this.studentRepo.findOneBy({id: id});
+  async findOne(id: number) {
+    return await this.studentRepo.findOneBy({id: id});
   }
 
   async update(id: number, updateStudentDto: UpdateStudentDto) {
