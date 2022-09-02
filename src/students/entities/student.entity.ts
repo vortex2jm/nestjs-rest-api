@@ -9,7 +9,7 @@ export class Student {
     @Column()
     name: string;
 
-    @Column({type: "decimal", precision: 2, nullable: true})
+    @Column({type: "decimal", nullable: true})
     media: number;
 
     @Column()
