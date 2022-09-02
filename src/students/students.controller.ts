@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, HttpCode } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, HttpCode, ValidationPipe } from '@nestjs/common';
 import { StudentsService } from './students.service';
 import { CreateStudentDto } from './dto/create-student.dto';
 import { UpdateStudentDto } from './dto/update-student.dto';
@@ -8,7 +8,7 @@ export class StudentsController {
   constructor(private readonly studentsService: StudentsService) {}
 
   @Post()
-  create(@Body() createStudentDto: CreateStudentDto) {
+  create(@Body(new ValidationPipe({errorHttpStatusCode: 422})) createStudentDto: CreateStudentDto) {
     return this.studentsService.create(createStudentDto);
   }
 
@@ -23,7 +23,7 @@ export class StudentsController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateStudentDto: UpdateStudentDto) {
+  update(@Param('id') id: string, @Body(new ValidationPipe({errorHttpStatusCode: 422})) updateStudentDto: UpdateStudentDto) {
     return this.studentsService.update(+id, updateStudentDto);
   }
 
